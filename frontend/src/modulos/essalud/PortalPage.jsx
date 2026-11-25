@@ -1,73 +1,96 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../../api/client.js';
-import { Feedback, Status } from '../../components/Feedback.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 
-const services = [
-  { title: 'Medicina general', text: 'Atención primaria y orientación para el cuidado de la salud.' },
-  { title: 'Prevención y vacunación', text: 'Consulta en tu sede la disponibilidad de campañas preventivas.' },
-  { title: 'Atención de urgencias', text: 'Acude a una sede asistencial o llama a emergencias si se requiere atención inmediata.' }
+const news = [
+  {
+    date: '25 NOV 2026',
+    category: 'PREVENCIÓN',
+    title: 'Pequeñas acciones diarias para cuidar tu salud y bienestar',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85',
+    alt: 'Profesional de salud brinda atención a una paciente'
+  },
+  {
+    date: '19 NOV 2026',
+    category: 'CAMPAÑA DE SALUD',
+    title: 'Chequeos preventivos: cuándo programar una evaluación médica',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=900&q=85',
+    alt: 'Equipo médico en un centro de atención'
+  },
+  {
+    date: '12 NOV 2026',
+    category: 'ORIENTACIÓN',
+    title: 'Prepara tus datos para solicitar una cita médica en línea',
+    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=85',
+    alt: 'Atención médica en consulta'
+  }
 ];
 
 export default function EssaludPortalPage() {
   const { user } = useAuth();
-  const [appointments, setAppointments] = useState([]);
-  const [error, setError] = useState('');
-  const employee = user.roles.some((item) => item.modulo === 'essalud' && item.rol === 'empleado');
-  const canAccessPnp = user.roles.some((item) => item.modulo === 'pnp');
+  const hasAccess = Boolean(user?.roles.some((item) => item.modulo === 'essalud'));
+  const employee = Boolean(user?.roles.some((item) => item.modulo === 'essalud' && item.rol === 'empleado'));
+  const appointmentPath = employee ? '/essalud/panel' : '/essalud/cita';
 
-  useEffect(() => {
-    api('/essalud/citas')
-      .then(({ citas }) => setAppointments(citas))
-      .catch((requestError) => setError(requestError.message));
-  }, []);
-
-  const active = appointments.filter((item) => !['atendida', 'cancelada'].includes(item.estado));
-
-  return <>
-    <section className="portal-hero health-portal">
-      <div className="portal-hero-content">
-        <p className="portal-kicker"><span className="health-emblem" aria-hidden="true">+</span> HOSPITAL ESSALUD NORTE CHICO</p>
-        <h1>Seguridad y salud integral a tu servicio</h1>
-        <p>Atención médica, prestaciones de salud y servicios para cuidar el bienestar de las familias de Norte Chico.</p>
-        <div className="actions">
-          {employee
-            ? <Link className="button button-primary" to="/essalud/panel">Abrir panel de citas</Link>
-            : <><Link className="button button-primary" to="/essalud/cita">Solicitar una cita</Link><Link className="button button-secondary" to="/essalud/mis-citas">Ver mis citas</Link></>}
+  return (
+    <div className="institutional-portal essalud-institutional">
+      <section className="institutional-hero">
+        <div className="institutional-hero-copy">
+          <p className="institutional-kicker"><span className="institutional-health-mark" aria-hidden="true">+</span> ESSALUD · RED NORTE CHICO</p>
+          <h1>Cuidamos tu salud y la de tu familia</h1>
+          <p>Encuentra orientación, servicios y canales de atención para acompañarte en cada etapa de tu bienestar.</p>
+          <div className="institutional-actions">
+            <Link className="button health-action-primary" to={appointmentPath}>{employee ? 'Gestionar citas' : 'Solicitar una cita'}</Link>
+            {hasAccess && !employee
+              ? <Link className="button health-action-secondary" to="/essalud/mis-citas">Consultar mis citas</Link>
+              : !hasAccess && <Link className="button health-action-secondary" to="/login?modulo=essalud">Iniciar sesión</Link>}
+          </div>
         </div>
+        <div className="institutional-hero-seal health-seal" aria-hidden="true">+</div>
+      </section>
+
+      <div className="institutional-content-grid">
+        <section className="institutional-news" aria-labelledby="essalud-news-heading">
+          <div className="institutional-section-heading">
+            <div><p className="eyebrow">SALUD Y PREVENCIÓN</p><h2 id="essalud-news-heading">Últimas Noticias y Campañas</h2></div>
+            <span className="institutional-updated">Actualizado hoy</span>
+          </div>
+          <div className="institutional-news-grid">
+            {news.map((item) => (
+              <article className="institutional-news-card" key={item.title}>
+                <img src={item.image} alt={item.alt} loading="lazy" />
+                <div className="institutional-news-copy">
+                  <div className="news-meta"><span>{item.category}</span><time>{item.date}</time></div>
+                  <h3>{item.title}</h3>
+                  <a href="https://www.gob.pe/institucion/essalud/noticias" target="_blank" rel="noreferrer">Leer más <span aria-hidden="true">→</span></a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <aside className="institutional-aside">
+          <p className="eyebrow">ATENCIÓN AL ASEGURADO</p>
+          <h2>Canales Oficiales y Atención Rápida</h2>
+          <div className="official-contact">
+            <span className="contact-icon" aria-hidden="true">C</span>
+            <div><strong>Solicita una cita</strong><Link to={appointmentPath}>{employee ? 'Gestionar citas' : 'Iniciar solicitud en línea'}</Link></div>
+          </div>
+          <div className="official-contact">
+            <span className="contact-icon" aria-hidden="true">+</span>
+            <div><strong>Central EsSalud</strong><a href="tel:4118000">Llama al (01) 411-8000</a></div>
+          </div>
+          <div className="institutional-hours">
+            <strong>Orientación y citas</strong>
+            <p>Trámites en línea disponibles en cualquier momento.</p>
+            <small>La atención presencial depende del horario de cada establecimiento.</small>
+          </div>
+          <div className="institutional-notice">
+            <strong>¿Necesitas atención urgente?</strong>
+            <p>Acude al servicio de emergencia más cercano.</p>
+          </div>
+          <a className="official-site-link" href="https://www.gob.pe/essalud" target="_blank" rel="noreferrer">Portal oficial de EsSalud ↗</a>
+        </aside>
       </div>
-    </section>
-
-    <Feedback error={error} />
-
-    <section className="portal-grid section">
-      <article className="portal-card">
-        <p className="eyebrow">GESTIÓN DE CITAS</p>
-        <h2>Tu atención</h2>
-        <p className="portal-metric"><strong>{appointments.length}</strong><span>citas visibles en tu perfil</span></p>
-        <p><strong>{active.length}</strong> citas pendientes o en curso.</p>
-        {appointments.slice(0, 3).map((appointment) => <p className="portal-row" key={appointment.id}>
-          <span>{appointment.codigo_seguimiento} · {appointment.especialidad}</span><Status>{appointment.estado}</Status>
-        </p>)}
-      </article>
-      <article className="portal-card">
-        <p className="eyebrow">SEDES CONFIGURADAS</p>
-        <h2>Elige dónde atenderte</h2>
-        <p>Estas sedes están disponibles en el formulario de solicitud:</p>
-        <ul className="portal-list health-sites"><li><span className="health-site-icon" aria-hidden="true">+</span><span><strong>Hospital EsSalud Norte Chico</strong><small>Atención médica y urgencias</small></span></li><li><span className="health-site-icon" aria-hidden="true">+</span><span><strong>Policlínico Huacho</strong><small>Consultas ambulatorias</small></span></li></ul>
-        <Link className="text-link" to={employee ? '/essalud/panel' : '/essalud/cita'}>{employee ? 'Gestionar citas' : 'Solicitar atención'} →</Link>
-      </article>
-    </section>
-
-    <section className="section">
-      <div className="section-heading"><div><p className="eyebrow">ORIENTACIÓN</p><h2>Servicios de salud</h2></div></div>
-      <div className="portal-services">
-        {services.map((service) => <article className="portal-service" key={service.title}>
-          <span>ESSALUD · NORTE CHICO</span><strong>{service.title}</strong><small>{service.text}</small>
-        </article>)}
-        {canAccessPnp && <Link className="portal-service" to="/pnp"><span>PNP · DERIVACIONES</span><strong>Atención derivada</strong><small>Consulta el portal policial para dar seguimiento al incidente relacionado.</small></Link>}
-      </div>
-    </section>
-  </>;
+    </div>
+  );
 }

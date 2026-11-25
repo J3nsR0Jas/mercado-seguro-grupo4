@@ -1,76 +1,96 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../../api/client.js';
-import { Feedback, Status } from '../../components/Feedback.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
+
+const news = [
+  {
+    date: '25 NOV 2026',
+    category: 'PREVENCIÓN',
+    title: 'Recomendaciones para realizar compras seguras en mercados',
+    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85',
+    alt: 'Personas recorren un mercado de productos frescos'
+  },
+  {
+    date: '18 NOV 2026',
+    category: 'CAMPAÑA CIUDADANA',
+    title: 'La denuncia digital: canales seguros para reportar incidentes',
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=85',
+    alt: 'Equipo colaborando en una iniciativa comunitaria'
+  },
+  {
+    date: '10 NOV 2026',
+    category: 'SERVICIO',
+    title: 'Conoce qué información preparar antes de registrar una denuncia',
+    image: 'https://images.unsplash.com/photo-1453873531674-2151bcd01707?auto=format&fit=crop&w=900&q=85',
+    alt: 'Agente de seguridad en servicio'
+  }
+];
 
 export default function PnpPortalPage() {
   const { user } = useAuth();
-  const [complaints, setComplaints] = useState([]);
-  const [error, setError] = useState('');
-  const employee = user.roles.some((item) => item.modulo === 'pnp' && item.rol === 'empleado');
-  const canAccessEssalud = user.roles.some((item) => item.modulo === 'essalud');
+  const hasAccess = Boolean(user?.roles.some((item) => item.modulo === 'pnp'));
+  const employee = Boolean(user?.roles.some((item) => item.modulo === 'pnp' && item.rol === 'empleado'));
+  const reportPath = employee ? '/pnp/panel' : '/pnp/denuncia';
 
-  useEffect(() => {
-    api('/pnp/denuncias')
-      .then(({ denuncias }) => setComplaints(denuncias))
-      .catch((requestError) => setError(requestError.message));
-  }, []);
-
-  const active = complaints.filter((item) => item.estado !== 'atendido');
-
-  return <>
-    <section className="portal-hero police-portal">
-      <div className="portal-hero-content">
-        <p className="portal-kicker"><img className="pnp-crest" src="/images/pnp-logo.png" alt="" /> POLICÍA NACIONAL DEL PERÚ · SERVICIO OFICIAL</p>
-        <h1>Denuncia Digital de la Policía Nacional del Perú</h1>
-        <p>Registra tu denuncia de forma rápida, confidencial y segura las 24 horas. Realiza el seguimiento en línea de tus trámites.</p>
-        <div className="actions">
-          {employee
-            ? <Link className="button button-primary" to="/pnp/panel">Abrir panel PNP</Link>
-            : <><Link className="button button-primary" to="/pnp/denuncia">Registrar denuncia</Link><Link className="button button-secondary" to="/pnp/mis-denuncias">Consultar mis denuncias</Link></>}
+  return (
+    <div className="institutional-portal pnp-institutional">
+      <section className="institutional-hero">
+        <div className="institutional-hero-copy">
+          <p className="institutional-kicker"><img src="/images/pnp-logo.png" alt="" /> POLICÍA NACIONAL DEL PERÚ</p>
+          <h1>Al servicio de la seguridad ciudadana</h1>
+          <p>Orientación, prevención y atención digital para construir comunidades más seguras.</p>
+          <div className="institutional-actions">
+            <Link className="button pnp-action-primary" to={reportPath}>{employee ? 'Abrir panel PNP' : 'Registrar una denuncia'}</Link>
+            {hasAccess && !employee
+              ? <Link className="button pnp-action-secondary" to="/pnp/mis-denuncias">Consultar mis denuncias</Link>
+              : !hasAccess && <Link className="button pnp-action-secondary" to="/login?modulo=pnp">Iniciar sesión</Link>}
+          </div>
         </div>
+        <div className="institutional-hero-seal" aria-hidden="true">PNP</div>
+      </section>
+
+      <div className="institutional-content-grid">
+        <section className="institutional-news" aria-labelledby="pnp-news-heading">
+          <div className="institutional-section-heading">
+            <div><p className="eyebrow">INFORMACIÓN CIUDADANA</p><h2 id="pnp-news-heading">Últimas Noticias y Campañas</h2></div>
+            <span className="institutional-updated">Actualizado hoy</span>
+          </div>
+          <div className="institutional-news-grid">
+            {news.map((item) => (
+              <article className="institutional-news-card" key={item.title}>
+                <img src={item.image} alt={item.alt} loading="lazy" />
+                <div className="institutional-news-copy">
+                  <div className="news-meta"><span>{item.category}</span><time>{item.date}</time></div>
+                  <h3>{item.title}</h3>
+                  <a href="https://www.gob.pe/institucion/pnp/noticias" target="_blank" rel="noreferrer">Leer más <span aria-hidden="true">→</span></a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <aside className="institutional-aside">
+          <p className="eyebrow">CANALES DE SERVICIO</p>
+          <h2>Canales Oficiales y Atención Rápida</h2>
+          <div className="official-contact emergency-contact">
+            <span className="contact-icon" aria-hidden="true">105</span>
+            <div><strong>Central de emergencias</strong><a href="tel:105">Llama al 105</a></div>
+          </div>
+          <div className="official-contact">
+            <span className="contact-icon" aria-hidden="true">24</span>
+            <div><strong>Denuncia digital</strong><Link to={reportPath}>{employee ? 'Abrir panel de atención' : 'Iniciar trámite en línea'}</Link></div>
+          </div>
+          <div className="institutional-hours">
+            <strong>Atención digital</strong>
+            <p>Registro de denuncias disponible en línea las 24 horas.</p>
+            <small>En una emergencia, comunícate directamente con el 105.</small>
+          </div>
+          <div className="institutional-notice">
+            <strong>Aviso importante</strong>
+            <p>La denuncia digital no reemplaza la atención inmediata de emergencias.</p>
+          </div>
+          <a className="official-site-link" href="https://www.gob.pe/pnp" target="_blank" rel="noreferrer">Portal oficial de la PNP ↗</a>
+        </aside>
       </div>
-      <img className="portal-hero-image pnp-hero-image" src="/images/pnp-hero.jpeg" alt="Ilustración de la Policía Nacional del Perú" />
-    </section>
-
-    <Feedback error={error} />
-
-    <section className="portal-grid section">
-      <article className="portal-card">
-        <p className="eyebrow">SEGUIMIENTO EN LÍNEA</p>
-        <h2>Actividad de tu perfil</h2>
-        <p className="portal-metric"><strong>{complaints.length}</strong><span>denuncias visibles</span></p>
-        <p><strong>{active.length}</strong> casos requieren seguimiento.</p>
-        {complaints.slice(0, 3).map((complaint) => <p className="portal-row" key={complaint.id}>
-          <span>{complaint.codigo_seguimiento} · {complaint.tipo_delito}</span><Status>{complaint.estado}</Status>
-        </p>)}
-      </article>
-      <article className="portal-card emergency-card">
-        <p className="eyebrow">EMERGENCIA INMEDIATA</p>
-        <h2>Necesitas ayuda urgente</h2>
-        <p>Para emergencias policiales inmediatas, comunícate con la central telefónica de la PNP.</p>
-        <a className="emergency-number" href="tel:105">105</a>
-        <p className="hint">La denuncia digital no reemplaza la atención de emergencia.</p>
-      </article>
-    </section>
-
-    <section className="section">
-      <div className="section-heading"><div><p className="eyebrow">ATENCIÓN COORDINADA</p><h2>Servicios disponibles</h2></div></div>
-      <div className="portal-services">
-        <Link className="portal-service" to={employee ? '/pnp/panel' : '/pnp/denuncia'}>
-          <img className="portal-service-image pnp-service-image" src="/images/pnp-denuncia.jpeg" alt="" loading="lazy" />
-          <span>01 · DENUNCIAS</span><strong>{employee ? 'Revisar reportes' : 'Registrar un incidente'}</strong><small>El sistema genera un código para consultar el estado desde el portal.</small>
-        </Link>
-        <Link className="portal-service" to="/pnp/mis-denuncias">
-          <img className="portal-service-image pnp-service-image" src="/images/pnp-seguimiento.png" alt="" loading="lazy" />
-          <span>02 · SEGUIMIENTO</span><strong>Consultar mis denuncias</strong><small>Revisa el avance y las actualizaciones de tus reportes.</small>
-        </Link>
-        {canAccessEssalud && <Link className="portal-service" to="/essalud">
-          <img className="portal-service-image pnp-service-image" src="/images/pnp-validacion.png" alt="" loading="lazy" />
-          <span>03 · DERIVACIÓN</span><strong>Atención de salud</strong><small>Los reportes con lesionados pueden derivarse al módulo EsSalud.</small>
-        </Link>}
-      </div>
-    </section>
-  </>;
+    </div>
+  );
 }

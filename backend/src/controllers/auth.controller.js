@@ -14,7 +14,11 @@ export async function login(req, res, next) {
 
 export async function register(req, res, next) {
   try {
-    const { nombre, correo, contrasena } = req.body;
+    const body = req.body ?? {};
+    if (['rol', 'role', 'roles', 'modulo', 'module'].some((field) => Object.hasOwn(body, field))) {
+      return res.status(400).json({ error: 'Los roles y módulos se asignan automáticamente; no se pueden elegir en el registro.' });
+    }
+    const { nombre, correo, contrasena } = body;
     if (![nombre, correo, contrasena].every((value) => typeof value === 'string')) {
       return res.status(400).json({ error: 'Nombre, correo y contraseña son obligatorios.' });
     }

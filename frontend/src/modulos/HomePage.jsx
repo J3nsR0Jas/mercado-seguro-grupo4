@@ -8,33 +8,42 @@ const modules = [
 ];
 
 export default function HomePage() {
-  const { user } = useAuth();
-  const accessible = modules.map((module) => {
-    const roles = user.roles.filter((role) => role.modulo === module.id);
-    return { ...module, roles };
-  }).filter((module) => module.roles.length > 0);
+  const { user, loading } = useAuth();
+  const accessible = user
+    ? modules.map((module) => {
+      const roles = user.roles.filter((role) => role.modulo === module.id);
+      return { ...module, roles };
+    }).filter((module) => module.roles.length > 0)
+    : modules;
+
   return (
     <>
       <section className="hero">
         <div>
           <p className="eyebrow">PLATAFORMA INTEGRADA · GRUPO 4</p>
-          <h1>Hola, {user.nombre}</h1>
+          <h1>{user ? `Hola, ${user.nombre}` : 'Tres servicios. Un solo lugar.'}</h1>
           <p>Un mismo acceso conecta al comerciante, la PNP y EsSalud.</p>
+          {!user && !loading && <Link className="button button-primary" to="/login">Iniciar sesión</Link>}
         </div>
         <div className="hero-mark" aria-hidden="true">MS</div>
       </section>
       <section className="section">
-        <div className="section-heading"><div><p className="eyebrow">TU MENÚ POR ROLES</p><h2>Servicios disponibles</h2></div></div>
+        <div className="section-heading">
+          <div><p className="eyebrow">{user ? 'TU MENÚ POR ROLES' : 'PORTALES DISPONIBLES'}</p><h2>{user ? 'Servicios disponibles' : 'Elige un módulo'}</h2></div>
+        </div>
         <div className="module-grid">
-          {accessible.map((module) => {
-            return <Link key={module.id} className={`module-card ${module.color}`} to={module.path}>
+          {accessible.map((module) => (
+            <article key={module.id} className={`module-card ${module.color}`}>
               <span className="module-icon">{module.id === 'mercado' ? '01' : module.id === 'pnp' ? '02' : '03'}</span>
               <h3>{module.name}</h3>
               <p>{module.intro}</p>
-              <span className="role-tag">{module.roles.map((role) => role.rol).join(' · ')}</span>
-              <span className="card-link">Abrir servicio →</span>
-            </Link>;
-          })}
+              {module.roles && <span className="role-tag">{module.roles.map((role) => role.rol).join(' · ')}</span>}
+              <div className="home-card-actions">
+                <Link className="card-link" to={module.path}>Abrir portal →</Link>
+                {!user && <Link className="button button-secondary" to={`/login?modulo=${module.id}`}>Iniciar sesión</Link>}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </>
