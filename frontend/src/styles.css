@@ -842,6 +842,134 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
   .carousel-indicator, .carousel-arrow, .carousel-pause { transition: none !important; }
 }
 
+.topbar {
+  background: rgba(248, 253, 250, .78);
+  border-bottom-color: rgba(255, 255, 255, .72);
+  box-shadow: 0 8px 30px rgba(20, 67, 66, .08);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+}
+
+main.page,
+.auth-page {
+  animation: page-enter .35s cubic-bezier(.22, 1, .36, 1) both;
+}
+.auth-page .auth-card { animation: none; }
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity .45s cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms),
+    transform .45s cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms);
+  animation: none !important;
+}
+.scroll-reveal.is-visible,
+.scroll-reveal:focus-within {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.module-card,
+.portal-card,
+.product-card,
+.portal-service,
+.institutional-news-card {
+  transition:
+    transform .3s cubic-bezier(.22, 1, .36, 1),
+    box-shadow .3s cubic-bezier(.22, 1, .36, 1),
+    border-color .3s ease;
+}
+.module-card:hover,
+.portal-card:hover,
+.product-card:hover,
+.portal-service:hover,
+.institutional-news-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(18, 60, 55, .18), 0 0 0 1px rgba(255, 255, 255, .72);
+}
+.product-card > img,
+.portal-service img,
+.institutional-news-card > img,
+.portal-card img,
+.home-citizen-spotlight > img {
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+.product-card:hover > img,
+.portal-service:hover img,
+.institutional-news-card:hover > img,
+.portal-card:hover img,
+.home-citizen-spotlight:hover > img {
+  transform: scale(1.04);
+}
+.product-card,
+.portal-service,
+.institutional-news-card,
+.portal-card,
+.home-citizen-spotlight {
+  overflow: hidden;
+}
+
+.role-tag,
+.status.amber,
+.status.red {
+  animation: badge-pulse 2.6s ease-in-out infinite;
+}
+.home-emergency-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+.home-emergency-link::before {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  content: "";
+  background: #d9433d;
+  border-radius: 50%;
+  animation: emergency-dot-pulse 1.8s ease-out infinite;
+}
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(38, 139, 103, .12); }
+  50% { box-shadow: 0 0 0 5px rgba(38, 139, 103, 0); }
+}
+@keyframes emergency-dot-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(217, 67, 61, .48); }
+  75%, 100% { box-shadow: 0 0 0 7px rgba(217, 67, 61, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.page,
+  .auth-page,
+  .scroll-reveal,
+  .role-tag,
+  .status.amber,
+  .status.red,
+  .home-emergency-link::before {
+    animation: none !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .module-card,
+  .portal-card,
+  .product-card,
+  .portal-service,
+  .institutional-news-card,
+  .product-card > img,
+  .portal-service img,
+  .institutional-news-card > img,
+  .portal-card img,
+  .home-citizen-spotlight > img {
+    transition: none !important;
+  }
+}
+
 .health-sexual-section {
   display: block;
   width: 100%;
