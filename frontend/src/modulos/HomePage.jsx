@@ -47,7 +47,7 @@ export default function HomePage() {
         </div>
       </section>
       <section className="home-citizen-spotlight" aria-labelledby="home-pnp-heading">
-        <img src="/images/pnp-hero.jpeg" alt="Servicio policial para la seguridad ciudadana" loading="lazy" />
+        <img className="home-pnp-image" src="/images/pnp-hero.jpeg" alt="Servicio policial para la seguridad ciudadana" loading="lazy" />
         <div>
           <p className="eyebrow">ORIENTACIÓN CIUDADANA · PNP</p>
           <h2 id="home-pnp-heading">Infórmate y ayuda a prevenir incidentes</h2>
