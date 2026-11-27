@@ -39,7 +39,7 @@ export default function PagoDemoPage() {
     <Feedback error={error} />
     {!stall && !error && <p className="empty">No se encontró el puesto asociado a tu cuenta.</p>}
     {stall && <section className="payment-layout">
-      <article className="portal-card payment-summary">
+      <article className="portal-card payment-summary market-payment-summary">
         <p className="eyebrow">RESUMEN DE SOLICITUD</p>
         <h2>{stall.razon_social}</h2>
         <p>Puesto {stall.puesto} · {stall.producto}</p>
@@ -55,8 +55,8 @@ export default function PagoDemoPage() {
         </div>
         <p>Para proteger tus datos, este prototipo no solicita ni almacena número de tarjeta, vencimiento o CVV.</p>
         {completedPayment
-          ? <div className="feedback" role="status">Simulación registrada · operación {completedPayment.codigo_operacion}. No se realizó ningún cargo.</div>
-          : <button className="button button-primary full" onClick={simulatePayment} disabled={busy || !stall}>
+          ? <div className="feedback" role="status" aria-live="polite">Simulación registrada · operación {completedPayment.codigo_operacion}. No se realizó ningún cargo.</div>
+          : <button className="button button-primary full" type="button" onClick={simulatePayment} disabled={busy || !stall}>
             {busy ? 'Registrando simulación…' : 'Simular pago con tarjeta'}
           </button>}
         <p className="hint">El registro queda marcado como simulado en Neon; para cobrar de verdad se necesita integrar una pasarela.</p>

@@ -46,6 +46,18 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      <section className="home-citizen-spotlight" aria-labelledby="home-pnp-heading">
+        <img src="/images/pnp-hero.jpeg" alt="Servicio policial para la seguridad ciudadana" loading="lazy" />
+        <div>
+          <p className="eyebrow">ORIENTACIÓN CIUDADANA · PNP</p>
+          <h2 id="home-pnp-heading">Infórmate y ayuda a prevenir incidentes</h2>
+          <p>Encuentra recomendaciones para zonas comerciales, canales de atención y orientación para reportar una emergencia.</p>
+          <div className="home-spotlight-actions">
+            <Link className="button pnp-action-primary" to="/pnp">Conocer el portal PNP</Link>
+            <a className="home-emergency-link" href="tel:105">Emergencias: 105</a>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

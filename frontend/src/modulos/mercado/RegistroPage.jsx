@@ -28,6 +28,7 @@ export default function RegistroPage() {
   }
   return <>
     <div className="page-title"><p className="eyebrow">MERCADO MAYORISTA</p><h1>Registrar puesto</h1><p>El importe se calcula en el servidor a S/ 15 por m² al día, más S/ 5 por alto consumo.</p></div>
+    <div className="market-registration-note"><strong>¿Buscas abastecimiento por volumen?</strong><span>En el catálogo mayorista puedes consultar productos agrícolas y mínimos de compra: más de 8 sacos para tubérculos y verduras, o cajas para frutas.</span></div>
     <form className="panel form-grid two-columns" onSubmit={submit}>
       <label>Razón social<input name="razon_social" required maxLength="150" /></label>
       <label>Producto principal / rubro<input name="producto" required maxLength="120" /></label>

@@ -523,6 +523,229 @@ dialog::backdrop { background: rgba(13, 36, 43, .28); backdrop-filter: blur(7px)
     transition-duration: .01ms !important;
   }
 }
+
+.account-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(145deg, #176844, #198f81);
+  border: 2px solid #d6efe1;
+  border-radius: 50%;
+}
+.account-avatar svg { width: 21px; height: 21px; fill: currentColor; }
+.module-dropdown-trigger:active, .dropdown-link:active, .category-tab:active { transform: scale(.97); }
+button, .dropdown-link, .category-tab, .small-button { transition: color .16s ease, background-color .16s ease, border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px solid rgba(37, 146, 174, .52); outline-offset: 3px; }
+.button:active:not(:disabled), .module-dropdown-trigger:active, .category-tab:active { filter: brightness(.9); }
+.tema-mercado .page h1, .tema-mercado .page h2, .tema-mercado .page h3 { color: #174b35; }
+.tema-mercado .page .eyebrow { color: #18704b; }
+.tema-pnp .page h1, .tema-pnp .page h2, .tema-pnp .page h3 { color: #153f68; }
+.tema-pnp .page .eyebrow { color: #245c91; }
+.tema-essalud .page h1, .tema-essalud .page h2, .tema-essalud .page h3 { color: #075b77; }
+.tema-essalud .page .eyebrow { color: #087f8b; }
+.tema-pnp .institutional-hero h1, .tema-essalud .institutional-hero h1 { color: #fff; }
+
+.market-portal { position: relative; }
+.market-portal { background-color: #104a37; }
+.market-portal::after { z-index: 0; }
+.market-portal::after { background: linear-gradient(90deg, #104a37 0%, rgba(16,74,55,.94) 38%, rgba(16,74,55,.54) 70%, rgba(16,74,55,.12) 100%); }
+.market-hero-visual { position: absolute; z-index: 1; inset: 0 0 0 auto; width: 58%; height: 100%; }
+.market-portal .portal-hero-content { z-index: 2; }
+.market-hero-visual .portal-hero-image { z-index: 0; width: 100%; }
+.market-hero-visual::after { position: absolute; inset: 0; content: ""; background: linear-gradient(90deg, rgba(11,60,45,.55), rgba(11,60,45,.02)); }
+.market-moving-cart { position: absolute; z-index: 2; right: 9%; bottom: 12%; width: clamp(80px, 12vw, 145px); color: #fff; filter: drop-shadow(0 6px 12px rgba(0,0,0,.35)); animation: market-cart-travel 4s ease-in-out infinite alternate; }
+@keyframes market-cart-travel {
+  from { transform: translateX(-22px) rotate(-2deg); }
+  to { transform: translateX(20px) rotate(2deg); }
+}
+.market-products { scroll-margin-top: 85px; }
+.category-tabs, .order-mode-switch { display: flex; flex-wrap: wrap; gap: .55rem; margin: 0 0 1.1rem; }
+.category-tab { min-height: 42px; padding: .6rem 1rem; color: #315044; background: #edf4ef; border: 1px solid #d5e5d8; border-radius: 999px; font-weight: 800; cursor: pointer; }
+.category-tab:hover { transform: translateY(-1px); box-shadow: 0 7px 17px rgba(20,70,50,.12); }
+.category-tab.selected { color: #fff; background: #176844; border-color: #176844; box-shadow: 0 7px 18px rgba(23,104,68,.22); }
+.category-tab.tubercles.selected { background: #a45b20; border-color: #a45b20; }
+.category-tab.fruits.selected { background: #bd4d2a; border-color: #bd4d2a; }
+.category-tab.vegetables.selected { background: #258257; border-color: #258257; }
+.market-catalog-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.market-product-card { display: flex; flex-direction: column; }
+.market-product-card > img { aspect-ratio: 4 / 3; }
+.market-product-card .product-card-info { display: flex; flex: 1; flex-direction: column; align-items: flex-start; gap: .4rem; }
+.market-product-card .product-card-info h3 { color: #193d2f; }
+.market-product-card .product-category-tuberculos { color: #99541d; }
+.market-product-card .product-category-frutas { color: #b64129; }
+.market-product-card .product-category-verduras { color: #217342; }
+.product-price { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: .2rem 0; }
+.product-price del, .offer-row del { color: #68786f; font-size: .82rem; }
+.product-price strong, .offer-row strong { color: #b22f25; font-size: 1rem; }
+.product-price-standard { color: #176844; }
+.offer-badge { display: inline-flex; padding: .22rem .48rem; color: #fff; background: #c64035; border-radius: 999px; font-size: .65rem; font-weight: 900; letter-spacing: .04em; }
+.market-product-card .product-card-info small { margin: 0 0 .45rem; color: #5e7066; }
+.market-product-card .button { width: 100%; margin-top: auto; }
+.market-offers { padding: clamp(1rem, 3vw, 1.5rem); background: linear-gradient(120deg, #fff8e9, #fff 62%, #fff2e5); border: 1px solid #f3dfb9; border-radius: 17px; }
+.offer-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
+.offer-row { display: flex; align-items: center; gap: .75rem; padding: .7rem; background: rgba(255,255,255,.86); border: 1px solid #f1e3cc; border-radius: 12px; }
+.offer-row > img { width: 72px; height: 72px; flex: 0 0 auto; object-fit: cover; border-radius: 9px; }
+.offer-row > div { display: grid; gap: .3rem; min-width: 0; }
+.offer-row h3 { margin: 0; font-size: .94rem; }
+.offer-row .button { margin-left: auto; white-space: nowrap; }
+.online-market-section { padding: clamp(1rem, 3vw, 1.5rem); background: rgba(255,255,255,.72); border: 1px solid #dce8df; border-radius: 17px; }
+.online-market-section > .section-heading { margin-bottom: .8rem; }
+.wholesale-rule { margin: 0 0 1rem; padding: .85rem 1rem; color: #694411; background: #fff6df; border-left: 4px solid #d99a31; border-radius: 8px; line-height: 1.5; }
+.cart-panel { display: grid; gap: .7rem; padding: 1rem; background: #fff; border: 1px solid #e1e9e2; border-radius: 12px; }
+.cart-line { display: grid; grid-template-columns: minmax(0, 1fr) minmax(150px, auto) auto; align-items: center; gap: 1rem; padding: .7rem 0; border-bottom: 1px solid #e8eee8; }
+.cart-line > div:first-child { display: grid; gap: .25rem; }
+.cart-line small { color: #68786f; }
+.cart-quantity { display: flex; align-items: center; gap: .55rem; }
+.cart-quantity .small-button { min-width: 32px; min-height: 32px; font-size: 1rem; }
+.cart-quantity > small { min-width: 45px; }
+.cart-totals { display: grid; grid-template-columns: 1fr auto; gap: .35rem; padding-top: .5rem; }
+.cart-totals strong { color: #15583b; text-align: right; }
+.cart-panel > .button { justify-self: end; }
+.market-reference-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(260px, .8fr); gap: 1rem; align-items: start; }
+.market-rules-card { padding: 1.1rem 1.3rem; background: #eff8f1; border: 1px solid #d2e7d5; border-radius: 14px; }
+.market-rules-card h3 { margin-top: 0; }
+.market-rules-card ul { margin-bottom: 0; padding-left: 1.15rem; color: #435b4c; line-height: 1.75; }
+.event-filters, .stall-filters { display: grid; grid-template-columns: 1fr minmax(190px, .75fr) minmax(160px, .5fr); align-items: end; gap: .8rem; margin-bottom: 1rem; }
+.event-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+.market-event-card { display: grid; grid-template-columns: 145px 1fr; overflow: hidden; background: #fff; border: 1px solid #dfebe1; border-radius: 13px; }
+.market-event-card > img { width: 100%; height: 100%; min-height: 145px; object-fit: cover; }
+.market-event-card > div { padding: .85rem; }
+.market-event-card h3 { margin: .35rem 0; font-size: 1rem; }
+.market-event-card p { margin: 0; color: #63736a; font-size: .82rem; }
+.event-category { color: #18704b; font-size: .68rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+.stall-filters { grid-template-columns: 1fr minmax(200px, .5fr) auto; }
+.stall-filters > span { padding-bottom: .75rem; color: #63736a; font-size: .82rem; }
+.market-registration-note { display: grid; gap: .25rem; margin: 0 0 1rem; padding: .9rem 1rem; color: #22553d; background: #eaf5ec; border-left: 4px solid #288354; border-radius: 8px; }
+
+.pnp-institutional .institutional-hero { background: linear-gradient(118deg, #133f6e, #1d5b8d 62%, #567d99); border-bottom-color: #e6bd52; }
+.pnp-institutional .institutional-kicker { color: #f9e3a8; }
+.pnp-institutional .institutional-hero-seal { color: #f9e3a8; border-color: rgba(249,227,168,.7); }
+.pnp-institutional .eyebrow, .pnp-institutional .institutional-aside .eyebrow { color: #245c91; }
+.pnp-news-grid .institutional-news-card { display: flex; flex-direction: column; }
+.pnp-news-grid .institutional-news-copy { display: grid; flex: 1; align-content: start; }
+.pnp-news-grid details { margin-top: auto; color: #415a6c; font-size: .82rem; }
+.pnp-news-grid summary { padding: .5rem 0; color: #1b5b8d; font-weight: 800; cursor: pointer; }
+.pnp-news-grid details p { margin: .2rem 0 .4rem; line-height: 1.55; }
+.pnp-information-section { margin-top: 1rem; padding: clamp(1rem, 3vw, 1.6rem); background: rgba(255,255,255,.84); border: 1px solid #dce7ef; border-radius: 16px; box-shadow: var(--shadow); }
+.pnp-information-section > .eyebrow { margin-top: 0; }
+.pnp-information-section > p:not(.eyebrow) { max-width: 900px; color: #53687a; }
+.pnp-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+.pnp-info-card { padding: 1rem; background: #f4f8fc; border: 1px solid #dbe7f1; border-radius: 12px; }
+.pnp-info-icon { display: grid; width: 38px; height: 38px; place-items: center; color: #7d5b13; background: #fff0c4; border-radius: 50%; }
+.pnp-info-card h3, .missing-person-card h3 { margin: .55rem 0; color: #153f68; font-size: 1.03rem; }
+.pnp-info-card p, .missing-person-card p { margin: .35rem 0; color: #485e70; font-size: .85rem; line-height: 1.5; }
+.pnp-info-card .button { margin-top: .55rem; }
+.missing-person-card { display: grid; grid-template-columns: 130px 1fr; gap: .9rem; padding: .8rem; background: #f4f8fc; border: 1px solid #dbe7f1; border-radius: 12px; }
+.missing-person-card > img { width: 130px; height: 155px; object-fit: cover; border-radius: 9px; filter: saturate(.8); }
+.alert-label { color: #9c3d34; font-size: .65rem; font-weight: 900; letter-spacing: .08em; }
+.missing-person-card .button { margin-top: .35rem; font-size: .76rem; }
+.pnp-guidance-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.pnp-guidance-grid article { padding: .9rem; background: #f4f8fc; border-top: 3px solid #2d6798; border-radius: 8px; }
+.pnp-guidance-grid h3 { color: #153f68; font-size: 1rem; }
+.pnp-guidance-grid ul { margin: 0; padding-left: 1.1rem; color: #4a6070; font-size: .84rem; line-height: 1.7; }
+
+.health-flow-section { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: clamp(1.2rem, 4vw, 3rem); align-items: center; margin-top: 1rem; padding: clamp(1rem, 3vw, 1.8rem) 0; border-bottom: 1px solid #cfe7e5; }
+.health-flow-section.health-flow-reverse .health-flow-copy { order: 2; }
+.health-flow-section.health-flow-reverse .health-flow-image { order: 1; }
+.health-flow-copy > .eyebrow { margin-top: 0; color: #087f8b; }
+.health-flow-copy h2 { color: #075b77; font-size: clamp(1.5rem, 3vw, 2rem); }
+.health-flow-copy > p:not(.eyebrow) { max-width: 760px; color: #4f666b; }
+.health-flow-image { width: 100%; max-height: 330px; object-fit: cover; border-radius: 16px; box-shadow: 0 15px 34px rgba(11,82,91,.12); }
+.health-banner { margin-top: 1rem; padding: 1rem 1.1rem; color: #115c67; background: linear-gradient(110deg, #e1f7f5, #f3fcfa); border-left: 4px solid #22a8a2; border-radius: 8px; }
+.health-banner ul, .health-check-list { padding-left: 1.15rem; color: #425f63; line-height: 1.75; }
+.health-banner ul { margin: .5rem 0 0; }
+.health-calendar { display: grid; gap: .5rem; margin-top: 1rem; }
+.health-calendar h3 { margin: 0 0 .2rem; color: #075b77; font-size: 1.05rem; }
+.health-calendar > div { display: grid; grid-template-columns: 145px 1fr; gap: .7rem; padding: .65rem 0; border-bottom: 1px solid #dcecea; color: #50686b; font-size: .87rem; }
+.health-calendar > div strong { color: #087f8b; }
+.health-check-list { margin: .8rem 0 1.2rem; }
+.health-inline-button { color: white; background: #087e83; }
+.health-inline-button:hover:not(:disabled) { background: #05676d; }
+.prenatal-timeline { display: grid; gap: .7rem; margin: 1rem 0; }
+.prenatal-timeline article { display: grid; grid-template-columns: 42px 1fr; gap: .8rem; align-items: start; }
+.prenatal-timeline article > span { display: grid; width: 38px; height: 38px; place-items: center; color: #fff; background: #0c8b91; border-radius: 50%; font-weight: 800; }
+.prenatal-timeline h3 { margin: .1rem 0; color: #075b77; font-size: 1rem; }
+.prenatal-timeline p { margin: .2rem 0; color: #4f666b; font-size: .88rem; }
+.health-warning { padding: .9rem 1rem; color: #783e2f; background: #fff2e9; border-left: 4px solid #dd7754; border-radius: 8px; }
+.health-warning p { margin: .35rem 0 0; font-size: .88rem; }
+.blood-donation-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, .45fr); gap: 1.3rem; align-items: center; margin-top: 1.6rem; padding: clamp(1rem, 3.5vw, 2rem); background: linear-gradient(125deg, #e6f8f6, #fff 55%, #e8f4fb); border: 1px solid #b9e5e1; border-radius: 18px; box-shadow: 0 16px 38px rgba(9,99,107,.1); }
+.blood-donation-copy > .eyebrow { color: #087f8b; }
+.blood-donation-copy h2 { color: #075b77; }
+.blood-donation-copy > p:not(.eyebrow) { color: #4f666b; }
+.blood-donation-card img { width: 100%; max-height: 270px; object-fit: cover; border-radius: 13px; }
+.blood-donation-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0; }
+.blood-donation-columns h3 { color: #087f8b; font-size: 1rem; }
+.blood-donation-columns ul { padding-left: 1.1rem; color: #496166; font-size: .85rem; line-height: 1.65; }
+.blood-donation-columns p { color: #496166; font-size: .85rem; line-height: 1.6; }
+.donor-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,.8); border: 1px solid #cfe7e5; border-radius: 12px; }
+.donor-form .button, .donor-form .hint { grid-column: 1 / -1; }
+.donor-confirmation { padding: .8rem; color: #115c45 !important; background: #e5f5ec; border-radius: 8px; }
+.health-news-section { margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid #cfe7e5; }
+.health-news-section .institutional-news-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.health-service-strip { display: flex; justify-content: space-between; gap: 1.5rem; margin-top: 1.5rem; padding: 1.2rem; background: #eaf7f7; border-radius: 14px; }
+.health-service-strip h2 { margin: 0; color: #075b77; font-size: 1.35rem; }
+.health-service-strip p:not(.eyebrow) { margin: .35rem 0 0; color: #52696e; }
+.health-service-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .55rem; }
+.health-secondary-button { color: #075b77; background: #fff; border: 1px solid #b9dedd; }
+.health-service-actions .official-site-link { margin: 0 .25rem; white-space: nowrap; }
+.home-citizen-spotlight { display: grid; grid-template-columns: minmax(230px, .75fr) 1.25fr; gap: clamp(1rem, 3vw, 2rem); align-items: center; margin-top: 2rem; padding: 1rem; background: linear-gradient(110deg, #f1f7fc, #fff); border: 1px solid #d8e6f0; border-radius: 16px; }
+.home-citizen-spotlight > img { width: 100%; max-height: 235px; object-fit: cover; border-radius: 12px; }
+.home-citizen-spotlight .eyebrow { color: #245c91; }
+.home-citizen-spotlight h2 { margin: .2rem 0 .5rem; color: #153f68; }
+.home-citizen-spotlight p:not(.eyebrow) { color: #53687a; }
+.home-spotlight-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.home-emergency-link { color: #a5312b; font-weight: 800; }
+.market-payment-summary { border-top: 4px solid #248354; }
+.market-payment-summary .payment-total { color: #176844; }
+
+@media (max-width: 900px) {
+  .market-catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .offer-list { grid-template-columns: 1fr 1fr; }
+  .pnp-guidance-grid { grid-template-columns: 1fr; }
+  .health-news-section .institutional-news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-citizen-spotlight { grid-template-columns: minmax(190px, .8fr) 1.2fr; }
+}
+@media (max-width: 680px) {
+  .market-hero-visual { width: 100%; opacity: .48; }
+  .market-hero-visual::after { background: linear-gradient(90deg, rgba(11,60,45,.8), rgba(11,60,45,.2)); }
+  .market-moving-cart { width: 90px; right: 6%; bottom: 8%; }
+  .market-catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .offer-list, .market-reference-grid, .event-grid, .pnp-info-grid { grid-template-columns: 1fr; }
+  .offer-row { flex-wrap: wrap; }
+  .offer-row .button { margin-left: 0; }
+  .cart-line { grid-template-columns: 1fr auto; }
+  .cart-line > strong { grid-column: 2; text-align: right; }
+  .cart-quantity { grid-column: 1 / -1; }
+  .event-filters, .stall-filters { grid-template-columns: 1fr; }
+  .stall-filters > span { padding: 0; }
+  .market-event-card { grid-template-columns: 100px 1fr; }
+  .market-event-card > img { min-height: 130px; }
+  .missing-person-card { grid-template-columns: 95px 1fr; }
+  .missing-person-card > img { width: 95px; height: 125px; }
+  .health-flow-section, .blood-donation-card { grid-template-columns: 1fr; }
+  .health-flow-section.health-flow-reverse .health-flow-copy,
+  .health-flow-section.health-flow-reverse .health-flow-image { order: initial; }
+  .health-flow-image { max-height: 230px; }
+  .blood-donation-card img { max-height: 210px; }
+  .health-service-strip { flex-direction: column; }
+  .health-service-actions { justify-content: flex-start; }
+  .health-news-section .institutional-news-grid { grid-template-columns: 1fr; }
+  .home-citizen-spotlight { grid-template-columns: 1fr; }
+  .home-citizen-spotlight > img { max-height: 190px; }
+}
+@media (max-width: 430px) {
+  .market-catalog-grid { grid-template-columns: 1fr; }
+  .blood-donation-columns, .donor-form { grid-template-columns: 1fr; }
+  .donor-form .button, .donor-form .hint { grid-column: auto; }
+  .health-calendar > div { grid-template-columns: 1fr; gap: .15rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .market-moving-cart { animation: none; }
+  .category-tab, button, .dropdown-link, .small-button { transition: none !important; }
+}
 .portal-hero {
   position: relative;
   isolation: isolate;

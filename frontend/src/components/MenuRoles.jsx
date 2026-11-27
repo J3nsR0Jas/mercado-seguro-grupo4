@@ -112,6 +112,12 @@ export default function MenuRoles() {
       <div className="account">
         {user
           ? <>
+            <span className="account-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <circle cx="12" cy="7.5" r="4" />
+                <path d="M4.5 21a7.5 7.5 0 0 1 15 0v.5h-15z" />
+              </svg>
+            </span>
             <span className="account-name">{user.nombre}</span>
             <Link className="button button-quiet profile-link" to="/perfil">Mi perfil</Link>
             <button className="button button-quiet" onClick={logout}>Cerrar sesión</button>
