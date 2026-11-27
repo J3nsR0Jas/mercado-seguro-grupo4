@@ -36,6 +36,40 @@ const products = [
   { id: 'brocoli', name: 'Brócoli', category: 'verduras', price: 3.8, wholesale: 102, package: 'saco', image: 'https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?auto=format&fit=crop&w=800&q=85' },
   { id: 'aji-amarillo', name: 'Ají amarillo', category: 'verduras', price: 5.5, wholesale: 145, package: 'saco', image: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=800&q=85' }
 ];
+const priceProducts = [
+  { id: 'papa-yungay', name: 'Papa Yungay', image: products.find((product) => product.id === 'papa-amarilla').image, varieties: [
+    { name: 'Yungay primera', min: 1.8, max: 2.4, average: 2.1, volumeMin: 120, volumeMax: 185, volumeAverage: 152.5 },
+    { name: 'Yungay comercial', min: 1.5, max: 2, average: 1.75, volumeMin: 90, volumeMax: 140, volumeAverage: 115 }
+  ] },
+  { id: 'papa-canchan', name: 'Papa Canchan', image: products.find((product) => product.id === 'papa-canchan').image, varieties: [
+    { name: 'Canchan primera', min: 1.7, max: 2.3, average: 2, volumeMin: 85, volumeMax: 125, volumeAverage: 105 },
+    { name: 'Canchan comercial', min: 1.4, max: 1.9, average: 1.65, volumeMin: 70, volumeMax: 110, volumeAverage: 90 }
+  ] },
+  { id: 'camote-morado', name: 'Camote Morado', image: products.find((product) => product.id === 'camote').image, varieties: [
+    { name: 'Morado extra', min: 1.8, max: 2.5, average: 2.15, volumeMin: 35, volumeMax: 58, volumeAverage: 46.5 },
+    { name: 'Morado estándar', min: 1.4, max: 2, average: 1.7, volumeMin: 28, volumeMax: 45, volumeAverage: 36.5 }
+  ] },
+  { id: 'yuca-blanca', name: 'Yuca Blanca', image: products.find((product) => product.id === 'yuca').image, varieties: [
+    { name: 'Blanca primera', min: 1.9, max: 2.6, average: 2.25, volumeMin: 42, volumeMax: 68, volumeAverage: 55 },
+    { name: 'Blanca comercial', min: 1.5, max: 2.1, average: 1.8, volumeMin: 30, volumeMax: 51, volumeAverage: 40.5 }
+  ] },
+  { id: 'cebolla-roja', name: 'Cebolla Roja', image: products.find((product) => product.id === 'cebolla').image, varieties: [
+    { name: 'Roja primera', min: 2.2, max: 3.1, average: 2.65, volumeMin: 75, volumeMax: 112, volumeAverage: 93.5 },
+    { name: 'Roja comercial', min: 1.8, max: 2.5, average: 2.15, volumeMin: 55, volumeMax: 88, volumeAverage: 71.5 }
+  ] },
+  { id: 'tomate', name: 'Tomate', image: products.find((product) => product.id === 'tomate').image, varieties: [
+    { name: 'Italiano', min: 2.4, max: 3.6, average: 3, volumeMin: 65, volumeMax: 98, volumeAverage: 81.5 },
+    { name: 'Katya', min: 2, max: 3, average: 2.5, volumeMin: 48, volumeMax: 76, volumeAverage: 62 }
+  ] },
+  { id: 'zanahoria', name: 'Zanahoria', image: products.find((product) => product.id === 'zanahoria').image, varieties: [
+    { name: 'Chantenay', min: 1.5, max: 2.2, average: 1.85, volumeMin: 50, volumeMax: 82, volumeAverage: 66 },
+    { name: 'Royal', min: 1.3, max: 1.9, average: 1.6, volumeMin: 38, volumeMax: 65, volumeAverage: 51.5 }
+  ] },
+  { id: 'limon', name: 'Limón', image: productImageFallback, varieties: [
+    { name: 'Sutil primera', min: 2.8, max: 4.2, average: 3.5, volumeMin: 90, volumeMax: 135, volumeAverage: 112.5 },
+    { name: 'Sutil comercial', min: 2.2, max: 3.4, average: 2.8, volumeMin: 68, volumeMax: 104, volumeAverage: 86 }
+  ] }
+];
 const events = [
   { title: 'Feria de productores y cosecha de temporada', category: 'Feria agropecuaria', date: '2026-12-05', place: 'Santa Anita', image: 'https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=85' },
   { title: 'Rueda de negocio con agricultores locales', category: 'Rueda de negocio', date: '2026-12-12', place: 'Pabellón de productores', image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=85' },
@@ -44,6 +78,16 @@ const events = [
 ];
 const categoryLabel = (category) => categories.find((item) => item.id === category)?.label ?? category;
 const money = (amount) => `S/ ${amount.toFixed(2)}`;
+const today = () => {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
+const marketSlides = [
+  { image: '/images/mercado-hero.jpg', alt: 'Vista del Mercado Mayorista de Lima' },
+  { image: '/images/mercado-pabellon.jpg', alt: 'Pabellones de venta del mercado' },
+  { image: '/images/mercado-camiones.jpg', alt: 'Camiones abasteciendo el mercado' },
+  { image: '/images/mercado-balanza.jpg', alt: 'Control de peso de productos frescos' }
+];
 
 export default function MercadoPortalPage() {
   const { user } = useAuth();
@@ -63,11 +107,26 @@ export default function MercadoPortalPage() {
   const [eventCategory, setEventCategory] = useState('Todas');
   const [eventDate, setEventDate] = useState('');
   const [eventSearch, setEventSearch] = useState('');
+  const [activeMarketSlide, setActiveMarketSlide] = useState(0);
+  const [priceDate, setPriceDate] = useState(today);
+  const [queriedPriceDate, setQueriedPriceDate] = useState(today);
+  const [priceVariable, setPriceVariable] = useState('price');
+  const [priceSearch, setPriceSearch] = useState('');
+  const [selectedPriceProductIds, setSelectedPriceProductIds] = useState(() => priceProducts.map((product) => product.id));
+  const [priceQueryMessage, setPriceQueryMessage] = useState('');
   const role = user?.roles.find((item) => item.modulo === 'mercado')?.rol;
   const hasAccess = Boolean(role);
   const canViewOrders = Boolean(user?.roles.some((item) => item.modulo === 'mercado' && ['empleado', 'administrador'].includes(item.rol)));
   const canAccessPnp = user?.roles.some((item) => item.modulo === 'pnp');
   const canAccessEssalud = user?.roles.some((item) => item.modulo === 'essalud');
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const timer = window.setInterval(() => {
+      setActiveMarketSlide((current) => (current + 1) % marketSlides.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     setStalls([]);
@@ -92,6 +151,14 @@ export default function MercadoPortalPage() {
       : '/mercado/mi-puesto';
   const visibleProducts = products.filter((product) => product.category === activeCategory);
   const offerProducts = products.filter((product) => product.offer);
+  const filteredPriceProducts = priceProducts.filter((product) => product.name.toLowerCase().includes(priceSearch.toLowerCase()));
+  const selectedPriceProducts = priceProducts.filter((product) => selectedPriceProductIds.includes(product.id));
+  const selectedPriceRows = selectedPriceProducts.flatMap((product) => product.varieties.map((variety) => ({ product, variety })));
+  const averagePrice = selectedPriceRows.length
+    ? selectedPriceRows.reduce((total, { variety }) => total + variety.average, 0) / selectedPriceRows.length
+    : 0;
+  const minPrice = selectedPriceRows.length ? Math.min(...selectedPriceRows.map(({ variety }) => variety.min)) : 0;
+  const maxPrice = selectedPriceRows.length ? Math.max(...selectedPriceRows.map(({ variety }) => variety.max)) : 0;
   const cartItems = Object.entries(cart).map(([id, quantity]) => ({ product: products.find((item) => item.id === id), quantity })).filter((item) => item.product);
   const subtotal = cartItems.reduce((sum, { product, quantity }) => {
     const unitPrice = wholesaleMode ? product.wholesale : (product.offer?.price ?? product.price);
@@ -132,6 +199,32 @@ export default function MercadoPortalPage() {
       const product = products.find((item) => item.id === id);
       return [id, product && product.category !== 'frutas' ? Math.max(8, quantity) : Math.max(1, quantity)];
     })));
+  }
+
+  function togglePriceProduct(productId) {
+    setSelectedPriceProductIds((current) => current.includes(productId)
+      ? current.filter((id) => id !== productId)
+      : [...current, productId]);
+  }
+
+  function toggleAllPriceProducts() {
+    setSelectedPriceProductIds((current) => current.length === priceProducts.length
+      ? []
+      : priceProducts.map((product) => product.id));
+  }
+
+  function changeMarketSlide(direction) {
+    setActiveMarketSlide((current) => (current + direction + marketSlides.length) % marketSlides.length);
+  }
+
+  function consultPrices() {
+    if (!priceDate) {
+      setPriceQueryMessage('Selecciona una fecha para realizar la consulta.');
+      return;
+    }
+    setQueriedPriceDate(priceDate);
+    const dateLabel = new Date(`${priceDate}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' });
+    setPriceQueryMessage(`Consulta referencial aplicada para el ${dateLabel}.`);
   }
 
   async function confirmOrder(event) {
@@ -175,9 +268,18 @@ export default function MercadoPortalPage() {
 
   return <>
     <section className="portal-hero market-portal">
-      <div className="portal-hero-content">
+      <div className="market-carousel-images" aria-live="polite">
+        {marketSlides.map((slide, index) => <img
+          className={`market-carousel-image${activeMarketSlide === index ? ' active' : ''}`}
+          key={slide.image}
+          src={slide.image}
+          alt={slide.alt}
+          aria-hidden={activeMarketSlide !== index}
+        />)}
+      </div>
+      <div className="portal-hero-content market-carousel-content">
         <p className="portal-kicker"><span className="market-emblem" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" /></svg></span> EMPRESA MUNICIPAL DE MERCADOS · SANTA ANITA</p>
-        <h1>El centro de abastecimiento más grande del país</h1>
+        <h1>Gran Mercado Mayorista de Lima - Atención al Comerciante y Precios Diarios</h1>
         <p>Conectando productores, comerciantes y familias peruanas con productos frescos de la mejor calidad al por mayor.</p>
         <div className="actions">
           {hasAccess
@@ -189,19 +291,85 @@ export default function MercadoPortalPage() {
               : <Link className="button button-primary" to="/login?modulo=mercado">Iniciar sesión</Link>}
         </div>
       </div>
-      <div className="market-hero-visual">
-        <img className="portal-hero-image" src="/images/mercado-hero.jpg" alt="Camiones y pabellones del Mercado Mayorista de Lima" />
-        <svg className="market-moving-cart" viewBox="0 0 120 90" role="img" aria-label="Carrito de compras en movimiento">
-          <path d="M8 12h12l10 46h58l14-34H26" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="40" cy="73" r="7" fill="currentColor" /><circle cx="82" cy="73" r="7" fill="currentColor" />
-          <path d="M43 40h35M52 30v22M67 30v22" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-        </svg>
+      <div className="market-carousel-controls">
+        <button className="market-carousel-arrow" type="button" aria-label="Imagen anterior" onClick={() => changeMarketSlide(-1)}>‹</button>
+        <div className="market-carousel-indicators" role="group" aria-label="Seleccionar imagen del mercado">
+          {marketSlides.map((slide, index) => <button
+            className={`market-carousel-indicator${activeMarketSlide === index ? ' active' : ''}`}
+            key={slide.image}
+            type="button"
+            aria-label={`Mostrar imagen ${index + 1}: ${slide.alt}`}
+            aria-current={activeMarketSlide === index ? 'true' : undefined}
+            onClick={() => setActiveMarketSlide(index)}
+          />)}
+        </div>
+        <button className="market-carousel-arrow" type="button" aria-label="Imagen siguiente" onClick={() => changeMarketSlide(1)}>›</button>
       </div>
     </section>
 
     <Feedback error={error} />
 
-    <section className="portal-grid section">
+    <section className="section market-prices-section" aria-labelledby="market-prices-heading">
+      <header className="market-prices-header">
+        <div><p className="eyebrow">INFORMACIÓN PARA EL COMERCIANTE</p><h2 id="market-prices-heading">Precios Mayoristas — Consulta diaria de precios por producto y variedad</h2></div>
+        <button className="button market-prices-submit" type="button" onClick={consultPrices}>Consultar precios</button>
+      </header>
+      <div className="market-prices-layout">
+        <aside className="market-price-filters" aria-labelledby="market-price-filters-heading">
+          <h3 id="market-price-filters-heading">Filtros de consulta</h3>
+          <label>Fecha de consulta<input type="date" value={priceDate} onChange={(event) => setPriceDate(event.target.value)} /></label>
+          <div className="market-price-variable" role="group" aria-label="Variable de consulta">
+            <button className={priceVariable === 'price' ? 'selected' : ''} type="button" aria-pressed={priceVariable === 'price'} onClick={() => setPriceVariable('price')}>Precio (S/)</button>
+            <button className={priceVariable === 'volume' ? 'selected' : ''} type="button" aria-pressed={priceVariable === 'volume'} onClick={() => setPriceVariable('volume')}>Volumen (Toneladas)</button>
+          </div>
+          <label>Buscar producto<input type="search" value={priceSearch} onChange={(event) => setPriceSearch(event.target.value)} placeholder="Escribe un producto..." /></label>
+          <label className="market-select-all">
+            <input type="checkbox" checked={selectedPriceProductIds.length === priceProducts.length} onChange={toggleAllPriceProducts} />
+            <span>Seleccionar todos</span>
+          </label>
+          <div className="market-price-product-list">
+            {filteredPriceProducts.map((product) => <label className="market-price-product" key={product.id}>
+              <input type="checkbox" checked={selectedPriceProductIds.includes(product.id)} onChange={() => togglePriceProduct(product.id)} />
+              <img src={product.image} alt="" loading="lazy" onError={handleProductImageError} />
+              <span>{product.name}</span>
+            </label>)}
+            {filteredPriceProducts.length === 0 && <p className="hint">No se encontraron productos.</p>}
+          </div>
+        </aside>
+        <div className="market-price-results">
+          <div className="market-price-kpis">
+            <article><span>Productos seleccionados</span><strong>{selectedPriceProducts.length}</strong></article>
+            <article><span>Variedades analizadas</span><strong>{selectedPriceRows.length}</strong></article>
+            <article><span>Precio promedio general (S/)</span><strong>{selectedPriceRows.length ? averagePrice.toFixed(2) : '—'}</strong></article>
+            <article><span>Rango de precios (S/ mín - S/ máx)</span><strong>{selectedPriceRows.length ? `${minPrice.toFixed(2)} - ${maxPrice.toFixed(2)}` : '—'}</strong></article>
+          </div>
+          <div className="market-price-table-heading"><h3>Resultados de la consulta</h3><span>Fecha: {new Date(`${queriedPriceDate}T12:00:00`).toLocaleDateString('es-PE')}</span></div>
+          <div className="table-wrap market-price-table-wrap">
+            <table>
+              <thead><tr>
+                <th>N°</th><th>Producto</th><th>Variedad</th>
+                {priceVariable === 'price'
+                  ? <><th>Precio mín. (S/)</th><th>Precio máx. (S/)</th><th>Precio prom. (S/)</th></>
+                  : <><th>Volumen mín. (TM)</th><th>Volumen máx. (TM)</th><th>Volumen prom. (TM)</th></>}
+              </tr></thead>
+              <tbody>
+                {selectedPriceRows.map(({ product, variety }, index) => <tr key={`${product.id}-${variety.name}`}>
+                  <td>{index + 1}</td><td>{product.name}</td><td>{variety.name}</td>
+                  {priceVariable === 'price'
+                    ? <><td>{variety.min.toFixed(2)}</td><td>{variety.max.toFixed(2)}</td><td>{variety.average.toFixed(2)}</td></>
+                    : <><td>{variety.volumeMin.toFixed(2)}</td><td>{variety.volumeMax.toFixed(2)}</td><td>{variety.volumeAverage.toFixed(2)}</td></>}
+                </tr>)}
+                {selectedPriceRows.length === 0 && <tr><td colSpan="6">Selecciona al menos un producto para consultar sus resultados.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+          <p className="market-price-disclaimer">Precios y volúmenes referenciales de demostración; no son cotizaciones oficiales ni datos históricos en tiempo real.</p>
+          {priceQueryMessage && <p className="market-price-status" role="status">{priceQueryMessage}</p>}
+        </div>
+      </div>
+    </section>
+
+    <section className="portal-grid section" id="market-tramites">
       {hasAccess ? <article className="portal-card">
         <p className="eyebrow">GESTIÓN DIGITAL</p>
         <h2>Trámites del mercado</h2>

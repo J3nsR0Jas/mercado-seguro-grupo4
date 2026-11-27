@@ -76,7 +76,27 @@ export default function AppShell() {
         <p className="breadcrumb">Mercado Seguro <span>›</span> {moduleName}</p>
         <Outlet />
       </main>
-      <footer className="footer">Grupo 4 · Mercado Mayorista · PNP · EsSalud</footer>
+      {moduleId === 'mercado'
+        ? <footer className="market-footer" id="market-contacto">
+          <div className="market-footer-main">
+            <div className="market-footer-brand">
+              <a className="market-footer-logo" href="/" aria-label="Mercado Seguro, inicio">
+                <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 19 24 6l19 13v23H5z" fill="none" stroke="currentColor" strokeWidth="3" strokeLinejoin="round" /><path d="M15 42V25h18v17M20 31h8" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg>
+                <span>Mercado <strong>Seguro</strong><small>EMMSA · GMML</small></span>
+              </a>
+              <p>Av. La Cultura 808,<br />Santa Anita - Lima, Perú</p>
+              <a className="market-footer-phone" href="tel:+015182800">+01 518-2800</a>
+            </div>
+            <nav className="market-footer-links" aria-label="Enlaces institucionales">
+              <div><h2>Contáctanos</h2><a href="https://www.gob.pe/1120-presentar-un-reclamo-en-el-libro-de-reclamaciones" target="_blank" rel="noreferrer">Libro de Reclamaciones</a><a href="https://denuncias.servicios.gob.pe/" target="_blank" rel="noreferrer">Canal de Denuncias</a></div>
+              <div><h2>Infórmate</h2><a href="/">Inicio</a><a href="https://www.gob.pe/institucion/emmsa/noticias" target="_blank" rel="noreferrer">Noticias</a><a href="https://www.transparencia.gob.pe/" target="_blank" rel="noreferrer">Transparencia</a></div>
+              <div><h2>Otros enlaces</h2><a href="https://www.munlima.gob.pe/" target="_blank" rel="noreferrer">Municipalidad de Lima</a><a href="https://www.gob.pe/midagri" target="_blank" rel="noreferrer">MIDAGRI</a><a href="https://www.gob.pe/pnp" target="_blank" rel="noreferrer">PNP</a><a href="https://www.essalud.gob.pe/" target="_blank" rel="noreferrer">EsSalud</a></div>
+              <div><h2>Información y Consultas</h2><a href="/mercado#market-rules-heading">Reglamento Interno GMML</a><a href="/mercado#market-tramites">Atención al Comerciante</a></div>
+            </nav>
+          </div>
+          <div className="market-footer-bottom">Gran Mercado Mayorista de Lima · Empresa Municipal de Mercados S.A.</div>
+        </footer>
+        : <footer className="footer">Grupo 4 · Mercado Mayorista · PNP · EsSalud</footer>}
     </div>
   );
 }
