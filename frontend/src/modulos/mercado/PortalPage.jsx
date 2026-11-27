@@ -21,7 +21,7 @@ const products = [
   { id: 'papa-blanca', name: 'Papa blanca', category: 'tuberculos', price: 2.6, wholesale: 72, package: 'saco', image: 'https://images.unsplash.com/photo-1675501344642-92d35d90fe51?auto=format&fit=crop&w=800&q=85' },
   { id: 'papa-canchan', name: 'Papa Canchan', category: 'tuberculos', price: 3.2, wholesale: 86, package: 'saco', image: 'https://images.unsplash.com/photo-1563012678-bdfec255931b?auto=format&fit=crop&w=800&q=85' },
   { id: 'camote', name: 'Camote', category: 'tuberculos', price: 2.9, wholesale: 78, package: 'saco', image: 'https://images.unsplash.com/photo-1730815048561-45df6f7f331d?auto=format&fit=crop&w=800&q=85' },
-  { id: 'yuca', name: 'Yuca', category: 'tuberculos', price: 3.1, wholesale: 82, package: 'saco', image: 'https://images.unsplash.com/photo-1757283961570-682154747d9c?auto=format&fit=crop&w=800&q=85' },
+  { id: 'yuca', name: 'Yuca', category: 'tuberculos', price: 3.1, wholesale: 82, package: 'saco', image: '/images/yuca.webp' },
   { id: 'olluco', name: 'Olluco', category: 'tuberculos', price: 3.8, wholesale: 101, package: 'saco', image: 'https://images.unsplash.com/photo-1635774855536-9728f2610245?auto=format&fit=crop&w=800&q=85' },
   { id: 'manzana', name: 'Manzana', category: 'frutas', price: 4.5, wholesale: 78, package: 'caja', image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=85', offer: { previous: 5.2, price: 4.2 } },
   { id: 'platano', name: 'Plátano de seda', category: 'frutas', price: 2.8, wholesale: 54, package: 'caja', image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=800&q=85' },

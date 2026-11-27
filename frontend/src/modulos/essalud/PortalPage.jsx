@@ -129,7 +129,7 @@ export default function EssaludPortalPage() {
         <img className="health-flow-image" src="https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=1100&q=85" alt="Profesional de salud acompaña a una paciente" loading="lazy" />
       </section>
 
-      <section className="health-flow-section health-flow-reverse" aria-labelledby="health-sexual-heading">
+      <section className="health-flow-section health-sexual-section" aria-labelledby="health-sexual-heading">
         <div className="health-flow-copy">
           <p className="eyebrow">ETS Y PREVENCIÓN SEXUAL</p>
           <h2 id="health-sexual-heading">Información clara, atención confidencial</h2>
@@ -143,12 +143,12 @@ export default function EssaludPortalPage() {
           >
             <div className="sexual-health-slide">
               <img src={sexualHealthSlides[activeSlide].image} alt={sexualHealthSlides[activeSlide].alt} />
-              <div className="sexual-health-slide-caption">
-                <span>CONSEJO {String(activeSlide + 1).padStart(2, '0')} / {sexualHealthSlides.length}</span>
-                <h3>{sexualHealthSlides[activeSlide].title}</h3>
-                <p>{sexualHealthSlides[activeSlide].description}</p>
-              </div>
               <div className={`carousel-progress${carouselHovered || carouselPaused ? ' paused' : ''}`} key={`progress-${activeSlide}`} />
+            </div>
+            <div className="sexual-health-slide-caption">
+              <span>CONSEJO {String(activeSlide + 1).padStart(2, '0')} / {sexualHealthSlides.length}</span>
+              <h3>{sexualHealthSlides[activeSlide].title}</h3>
+              <p>{sexualHealthSlides[activeSlide].description}</p>
             </div>
             <div className="sexual-health-carousel-controls">
               <button className="carousel-arrow" type="button" aria-label="Imagen anterior" onClick={() => moveSlide(-1)}>‹</button>
@@ -176,7 +176,6 @@ export default function EssaludPortalPage() {
           </ul>
           <Link className="button health-inline-button" to={appointmentPath}>Solicitar orientación</Link>
         </div>
-        <img className="health-flow-image" src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1100&q=85" alt="Profesional de salud brinda orientación durante una consulta" loading="lazy" />
       </section>
 
       <section className="health-flow-section" aria-labelledby="health-prenatal-heading">

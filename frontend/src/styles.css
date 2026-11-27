@@ -759,8 +759,8 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: 315px;
-  aspect-ratio: 16 / 8;
+  min-height: 260px;
+  aspect-ratio: 2.35 / 1;
   color: #fff;
   background: linear-gradient(135deg, #0d6975, #82c9bf);
   animation: sexual-slide-fade .7s cubic-bezier(.22, 1, .36, 1) both;
@@ -768,9 +768,9 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
 .sexual-health-slide::after {
   position: absolute;
   z-index: 1;
-  inset: 20% 0 0;
+  inset: 0;
   content: "";
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 37, 45, .34) 38%, rgba(5, 37, 45, .92) 100%);
+  background: linear-gradient(90deg, rgba(5, 37, 45, .12), transparent 35%, transparent 70%, rgba(5, 37, 45, .12));
   pointer-events: none;
 }
 .sexual-health-slide > img {
@@ -784,19 +784,16 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
   animation: sexual-image-zoom 6.5s cubic-bezier(.22, 1, .36, 1) both;
 }
 .sexual-health-slide-caption {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  right: 0;
-  bottom: 0;
-  left: 0;
   padding: clamp(1rem, 3vw, 1.6rem);
-  background: linear-gradient(0deg, rgba(6, 42, 48, .55), rgba(6, 42, 48, .1));
-  backdrop-filter: blur(7px);
-  -webkit-backdrop-filter: blur(7px);
+  color: #174e57;
+  background: linear-gradient(110deg, #f1fbf9, #e1f4f1);
+  border-top: 1px solid rgba(12, 118, 130, .16);
 }
-.sexual-health-slide-caption > span { color: #a8f0e2; font-size: .68rem; font-weight: 900; letter-spacing: .12em; }
-.sexual-health-slide-caption h3 { margin: .35rem 0; color: #fff; font-size: clamp(1.05rem, 2.4vw, 1.5rem); }
-.sexual-health-slide-caption p { max-width: 700px; margin: 0; color: rgba(255,255,255,.92); font-size: .9rem; line-height: 1.5; }
+.sexual-health-slide-caption > span { color: #087f83; font-size: .68rem; font-weight: 900; letter-spacing: .12em; }
+.sexual-health-slide-caption h3 { margin: .35rem 0; color: #075b77; font-size: clamp(1.05rem, 2.4vw, 1.5rem); }
+.sexual-health-slide-caption p { max-width: 900px; margin: 0; color: #355e63; font-size: .95rem; line-height: 1.6; }
 .carousel-progress { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,.28); }
 .carousel-progress::before { display: block; width: 100%; height: 100%; content: ""; background: #64e0c3; transform: scaleX(0); transform-origin: left center; animation: carousel-progress 6.5s linear both; }
 .carousel-progress.paused::before { animation-play-state: paused; }
@@ -833,7 +830,7 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
   to { transform: scaleX(1); }
 }
 @media (max-width: 680px) {
-  .sexual-health-slide { min-height: 275px; aspect-ratio: 4 / 3; }
+  .sexual-health-slide { min-height: 210px; aspect-ratio: 16 / 10; }
   .carousel-indicators { gap: .3rem; }
   .carousel-indicator { width: 7px; height: 7px; }
   .carousel-indicator.active { width: 19px; }
@@ -844,6 +841,40 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
 @media (prefers-reduced-motion: reduce) {
   .sexual-health-slide, .sexual-health-slide > img, .carousel-progress::before { animation: none !important; }
   .carousel-indicator, .carousel-arrow, .carousel-pause { transition: none !important; }
+}
+
+.health-sexual-section {
+  display: block;
+  width: 100%;
+}
+.health-sexual-section .health-flow-copy {
+  width: 100%;
+}
+.health-sexual-section .health-flow-copy > .eyebrow,
+.health-sexual-section .health-flow-copy > h2,
+.health-sexual-section .health-flow-copy > p:not(.eyebrow) {
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.health-sexual-section .sexual-health-carousel {
+  width: 100%;
+  margin: 1.5rem auto;
+}
+.health-sexual-section .sexual-health-slide {
+  width: 100%;
+}
+.health-sexual-section .health-check-list {
+  margin-top: 1.5rem;
+}
+.health-sexual-section .health-inline-button {
+  margin-top: .5rem;
+}
+@media (max-width: 680px) {
+  .health-sexual-section .health-flow-copy > p:not(.eyebrow) {
+    text-align: left;
+  }
 }
 .portal-hero {
   position: relative;
