@@ -23,3 +23,11 @@ export async function myPost(req, res, next) {
 export async function security(req, res, next) {
   try { res.json({ reporte: await service.report() }); } catch (error) { next(error); }
 }
+
+export async function createWholesaleOrder(req, res, next) {
+  try { res.status(201).json({ pedido: await service.createWholesaleOrder(req.body) }); } catch (error) { next(error); }
+}
+
+export async function listWholesaleOrders(req, res, next) {
+  try { res.json({ pedidos: await service.listWholesaleOrders() }); } catch (error) { next(error); }
+}

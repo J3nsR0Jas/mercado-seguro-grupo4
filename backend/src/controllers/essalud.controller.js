@@ -15,3 +15,11 @@ export async function update(req, res, next) {
 export async function updateStatus(req, res, next) {
   try { res.json({ cita: await service.updateStatus(req.params.id, req.body.estado) }); } catch (error) { next(error); }
 }
+
+export async function createDonor(req, res, next) {
+  try { res.status(201).json({ donante: await service.createDonor(req.body) }); } catch (error) { next(error); }
+}
+
+export async function listDonors(req, res, next) {
+  try { res.json({ donantes: await service.listDonors() }); } catch (error) { next(error); }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../../api/client.js';
+import { api, jsonBody } from '../../api/client.js';
 import { Feedback, Status } from '../../components/Feedback.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 
@@ -11,12 +11,18 @@ const categories = [
   { id: 'frutas', label: 'Frutas', color: 'fruits' },
   { id: 'verduras', label: 'Verduras', color: 'vegetables' }
 ];
+const productImageFallback = '/images/producto-agricola-fallback.svg';
+const handleProductImageError = (event) => {
+  event.currentTarget.onerror = null;
+  event.currentTarget.src = productImageFallback;
+};
 const products = [
   { id: 'papa-amarilla', name: 'Papa amarilla', category: 'tuberculos', price: 4.2, wholesale: 115, package: 'saco', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=85', offer: { previous: 4.8, price: 3.9 } },
-  { id: 'papa-blanca', name: 'Papa blanca', category: 'tuberculos', price: 2.6, wholesale: 72, package: 'saco', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=85' },
-  { id: 'camote', name: 'Camote', category: 'tuberculos', price: 2.9, wholesale: 78, package: 'saco', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=85' },
-  { id: 'yuca', name: 'Yuca', category: 'tuberculos', price: 3.1, wholesale: 82, package: 'saco', image: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?auto=format&fit=crop&w=800&q=85' },
-  { id: 'olluco', name: 'Olluco', category: 'tuberculos', price: 3.8, wholesale: 101, package: 'saco', image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=800&q=85' },
+  { id: 'papa-blanca', name: 'Papa blanca', category: 'tuberculos', price: 2.6, wholesale: 72, package: 'saco', image: 'https://images.unsplash.com/photo-1675501344642-92d35d90fe51?auto=format&fit=crop&w=800&q=85' },
+  { id: 'papa-canchan', name: 'Papa Canchan', category: 'tuberculos', price: 3.2, wholesale: 86, package: 'saco', image: 'https://images.unsplash.com/photo-1563012678-bdfec255931b?auto=format&fit=crop&w=800&q=85' },
+  { id: 'camote', name: 'Camote', category: 'tuberculos', price: 2.9, wholesale: 78, package: 'saco', image: 'https://images.unsplash.com/photo-1730815048561-45df6f7f331d?auto=format&fit=crop&w=800&q=85' },
+  { id: 'yuca', name: 'Yuca', category: 'tuberculos', price: 3.1, wholesale: 82, package: 'saco', image: 'https://images.unsplash.com/photo-1757283961570-682154747d9c?auto=format&fit=crop&w=800&q=85' },
+  { id: 'olluco', name: 'Olluco', category: 'tuberculos', price: 3.8, wholesale: 101, package: 'saco', image: 'https://images.unsplash.com/photo-1635774855536-9728f2610245?auto=format&fit=crop&w=800&q=85' },
   { id: 'manzana', name: 'Manzana', category: 'frutas', price: 4.5, wholesale: 78, package: 'caja', image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=800&q=85', offer: { previous: 5.2, price: 4.2 } },
   { id: 'platano', name: 'Plátano de seda', category: 'frutas', price: 2.8, wholesale: 54, package: 'caja', image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=800&q=85' },
   { id: 'naranja', name: 'Naranja', category: 'frutas', price: 2.7, wholesale: 49, package: 'caja', image: 'https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=800&q=85' },
@@ -47,11 +53,19 @@ export default function MercadoPortalPage() {
   const [wholesaleMode, setWholesaleMode] = useState(false);
   const [cart, setCart] = useState({});
   const [orderMessage, setOrderMessage] = useState('');
+  const [orderError, setOrderError] = useState('');
+  const [orderBusy, setOrderBusy] = useState(false);
+  const [buyerName, setBuyerName] = useState('');
+  const [buyerPhone, setBuyerPhone] = useState('');
+  const [savedOrder, setSavedOrder] = useState(null);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [ordersError, setOrdersError] = useState('');
   const [eventCategory, setEventCategory] = useState('Todas');
   const [eventDate, setEventDate] = useState('');
   const [eventSearch, setEventSearch] = useState('');
   const role = user?.roles.find((item) => item.modulo === 'mercado')?.rol;
   const hasAccess = Boolean(role);
+  const canViewOrders = Boolean(user?.roles.some((item) => item.modulo === 'mercado' && ['empleado', 'administrador'].includes(item.rol)));
   const canAccessPnp = user?.roles.some((item) => item.modulo === 'pnp');
   const canAccessEssalud = user?.roles.some((item) => item.modulo === 'essalud');
 
@@ -63,6 +77,15 @@ export default function MercadoPortalPage() {
       .then(({ puestos }) => setStalls(puestos))
       .catch((requestError) => setError(requestError.message));
   }, [user, hasAccess]);
+
+  useEffect(() => {
+    if (!canViewOrders) return undefined;
+    let active = true;
+    api('/mercado/pedidos-mayoristas')
+      .then(({ pedidos }) => { if (active) setRecentOrders(pedidos); })
+      .catch((requestError) => { if (active) setOrdersError(requestError.message); });
+    return () => { active = false; };
+  }, [canViewOrders, savedOrder?.id]);
 
   const actionPath = role === 'administrador' ? '/mercado/seguridad'
     : role === 'empleado' ? '/mercado/registros'
@@ -84,7 +107,7 @@ export default function MercadoPortalPage() {
   function addToCart(product) {
     setOrderMessage('');
     setCart((current) => {
-      const minimum = wholesaleMode && product.category !== 'frutas' ? 9 : 1;
+      const minimum = wholesaleMode && product.category !== 'frutas' ? 8 : 1;
       return { ...current, [product.id]: Math.max(minimum, (current[product.id] ?? 0) + 1) };
     });
   }
@@ -92,7 +115,7 @@ export default function MercadoPortalPage() {
   function updateQuantity(product, change) {
     setOrderMessage('');
     setCart((current) => {
-      const minimum = wholesaleMode && product.category !== 'frutas' ? 9 : 1;
+      const minimum = wholesaleMode && product.category !== 'frutas' ? 8 : 1;
       const next = (current[product.id] ?? minimum) + change;
       if (next < minimum) {
         const { [product.id]: removed, ...remaining } = current;
@@ -107,20 +130,47 @@ export default function MercadoPortalPage() {
     setOrderMessage('');
     setCart((current) => Object.fromEntries(Object.entries(current).map(([id, quantity]) => {
       const product = products.find((item) => item.id === id);
-      return [id, product && product.category !== 'frutas' ? Math.max(9, quantity) : Math.max(1, quantity)];
+      return [id, product && product.category !== 'frutas' ? Math.max(8, quantity) : Math.max(1, quantity)];
     })));
   }
 
-  function confirmOrder() {
+  async function confirmOrder(event) {
+    event.preventDefault();
+    setOrderError('');
+    setOrderMessage('');
     const invalid = cartItems.some(({ product, quantity }) => wholesaleMode
-      ? product.category === 'frutas' ? quantity < 1 : quantity < 9
+      ? product.category === 'frutas' ? quantity < 1 : quantity < 8
       : quantity < 1);
     if (invalid || cartItems.length === 0) {
       setOrderMessage('Revisa las cantidades mínimas y agrega productos antes de confirmar.');
       return;
     }
-    setOrderMessage(`Pedido demostrativo preparado por ${money(subtotal)}. No se realizó un pago ni se envió a la API.`);
-    setCart({});
+    if (!buyerName.trim()) {
+      setOrderMessage('Ingresa el nombre de quien realiza el pedido.');
+      return;
+    }
+
+    setOrderBusy(true);
+    try {
+      const { pedido } = await api('/mercado/pedidos-mayoristas', {
+        method: 'POST',
+        body: jsonBody({
+          cliente_nombre: buyerName.trim(),
+          telefono: buyerPhone.trim(),
+          tipo_compra: wholesaleMode ? 'proveedor' : 'minorista',
+          detalle_items: cartItems.map(({ product, quantity }) => ({ id: product.id, cantidad: quantity }))
+        })
+      });
+      setSavedOrder(pedido);
+      setOrderMessage(`Pedido #${pedido.id} guardado en la base de datos. Total confirmado: ${money(Number(pedido.total))}.`);
+      setCart({});
+      setBuyerName('');
+      setBuyerPhone('');
+    } catch (requestError) {
+      setOrderError(requestError.message);
+    } finally {
+      setOrderBusy(false);
+    }
   }
 
   return <>
@@ -196,7 +246,7 @@ export default function MercadoPortalPage() {
       </div>
       <div className="product-grid market-catalog-grid">
         {visibleProducts.map((product) => <article className="product-card market-product-card" key={product.id}>
-          <img src={product.image} alt={product.name} loading="lazy" />
+          <img src={product.image} alt={product.name} loading="lazy" onError={handleProductImageError} />
           <div className="product-card-info">
             <p className={`eyebrow product-category-${product.category}`}>{categoryLabel(product.category)}</p>
             <h3>{product.name}</h3>
@@ -215,7 +265,7 @@ export default function MercadoPortalPage() {
       <div className="section-heading"><div><p className="eyebrow">VIGENTES EN ESTE CATÁLOGO</p><h2 id="market-offers-heading">Ofertas del día</h2></div></div>
       <div className="offer-list">
         {offerProducts.map((product) => <article className="offer-row" key={product.id}>
-          <img src={product.image} alt="" loading="lazy" />
+          <img src={product.image} alt="" loading="lazy" onError={handleProductImageError} />
           <div><span className="offer-badge">PRECIO PROMOCIONAL</span><h3>{product.name}</h3><span><del>{money(product.offer.previous)} / kg</del> <strong>{money(product.offer.price)} / kg</strong></span></div>
           <button className="button button-secondary" type="button" onClick={() => { setActiveCategory(product.category); addToCart(product); }}>Agregar oferta</button>
         </article>)}
@@ -223,19 +273,19 @@ export default function MercadoPortalPage() {
     </section>
 
     <section className="section online-market-section" aria-labelledby="market-cart-heading">
-      <div className="section-heading"><div><p className="eyebrow">COMPRA EN LÍNEA · DEMOSTRACIÓN LOCAL</p><h2 id="market-cart-heading">Tu carrito mayorista</h2></div></div>
+      <div className="section-heading"><div><p className="eyebrow">COMPRA EN LÍNEA · PEDIDO REGISTRADO EN POSTGRESQL</p><h2 id="market-cart-heading">Tu carrito mayorista</h2></div></div>
       <div className="order-mode-switch" role="group" aria-label="Tipo de pedido">
         <button className={`category-tab ${!wholesaleMode ? 'selected' : ''}`} type="button" aria-pressed={!wholesaleMode} onClick={() => { setWholesaleMode(false); setOrderMessage(''); }}>Compra por kilo</button>
         <button className={`category-tab ${wholesaleMode ? 'selected' : ''}`} type="button" aria-pressed={wholesaleMode} onClick={enableWholesaleMode}>Pedido para proveedor</button>
       </div>
-      {wholesaleMode && <div className="wholesale-rule"><strong>Reglas de pedido al por mayor:</strong> tubérculos y verduras, mínimo 9 sacos por producto (más de 8); frutas, mínimo 1 caja. Puedes ajustar cantidades antes de confirmar.</div>}
+      {wholesaleMode && <div className="wholesale-rule"><strong>Reglas de pedido al por mayor:</strong> tubérculos y verduras, mínimo 8 sacos por producto; frutas, mínimo 1 caja. Puedes ajustar cantidades antes de confirmar.</div>}
       {cartItems.length === 0
         ? <p className="empty">Tu carrito está vacío. Agrega productos desde el catálogo.</p>
         : <div className="cart-panel">
           {cartItems.map(({ product, quantity }) => {
             const unit = wholesaleMode ? product.package : 'kg';
             const unitPrice = wholesaleMode ? product.wholesale : (product.offer?.price ?? product.price);
-            const minimum = wholesaleMode && product.category !== 'frutas' ? 9 : 1;
+            const minimum = wholesaleMode && product.category !== 'frutas' ? 8 : 1;
             return <div className="cart-line" key={product.id}>
               <div><strong>{product.name}</strong><small>{money(unitPrice)} / {unit} · {categoryLabel(product.category)}</small></div>
               <div className="cart-quantity">
@@ -248,10 +298,24 @@ export default function MercadoPortalPage() {
             </div>;
           })}
           <div className="cart-totals"><span>Subtotal</span><strong>{money(subtotal)}</strong><span>Total estimado</span><strong>{money(subtotal)}</strong></div>
-          <button className="button button-primary" type="button" onClick={confirmOrder}>Validar y confirmar pedido</button>
+          <form className="cart-checkout-form" onSubmit={confirmOrder}>
+            <label>Nombre del cliente<input value={buyerName} onChange={(event) => setBuyerName(event.target.value)} required maxLength="150" autoComplete="name" /></label>
+            <label>Teléfono de contacto (opcional)<input type="tel" value={buyerPhone} onChange={(event) => setBuyerPhone(event.target.value)} maxLength="30" autoComplete="tel" /></label>
+            <button className="button button-primary" type="submit" disabled={orderBusy}>{orderBusy ? 'Guardando pedido…' : 'Validar y guardar pedido'}</button>
+          </form>
         </div>}
+      <Feedback error={orderError} />
       {orderMessage && <p className="feedback" role="status">{orderMessage}</p>}
-      <p className="hint">Este prototipo calcula importes en el navegador; no procesa pagos ni registra pedidos en el servidor.</p>
+      {canViewOrders && <div className="recent-market-orders">
+        <h3>Últimos pedidos mayoristas</h3>
+        <Feedback error={ordersError} />
+        {recentOrders.length
+          ? <div className="table-wrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th>Total</th><th>Estado</th></tr></thead><tbody>
+            {recentOrders.slice(0, 10).map((order) => <tr key={order.id}><td>#{order.id}</td><td>{order.cliente_nombre}</td><td>{order.tipo_compra}</td><td>{money(Number(order.total))}</td><td>{order.estado}</td></tr>)}
+          </tbody></table></div>
+          : !ordersError && <p className="hint">Aún no hay pedidos registrados.</p>}
+      </div>}
+      <p className="hint">El importe se recalcula y el pedido se guarda en PostgreSQL. El registro no procesa pagos; coordina el pago con el proveedor.</p>
     </section>
 
     <section className="section market-reference-section" aria-labelledby="market-rules-heading">
@@ -274,7 +338,7 @@ export default function MercadoPortalPage() {
       </div>
       <div className="event-grid">
         {filteredEvents.map((event) => <article className="market-event-card" key={event.title}>
-          <img src={event.image} alt="" loading="lazy" /><div><span className="event-category">{event.category}</span><h3>{event.title}</h3><p><strong>{new Date(`${event.date}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' })}</strong> · {event.place}</p></div>
+          <img src={event.image} alt="" loading="lazy" onError={handleProductImageError} /><div><span className="event-category">{event.category}</span><h3>{event.title}</h3><p><strong>{new Date(`${event.date}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' })}</strong> · {event.place}</p></div>
         </article>)}
         {filteredEvents.length === 0 && <p className="empty">No hay eventos agrícolas que coincidan con esos filtros.</p>}
       </div>

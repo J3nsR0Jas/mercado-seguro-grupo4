@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title">
+  <title id="title">Producto agrícola</title>
+  <defs>
+    <linearGradient id="background" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#e7f2e9"/>
+      <stop offset="1" stop-color="#c5dfc8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#background)"/>
+  <path d="M400 370c-45-100-155-102-177-28-25 85 105 130 177 28Zm0 0c45-100 155-102 177-28 25 85-105 130-177 28Z" fill="#6c9b57"/>
+  <path d="M400 372c-11-94-6-160 0-226" fill="none" stroke="#3d7548" stroke-linecap="round" stroke-width="16"/>
+  <text x="400" y="510" fill="#315c3e" font-family="Arial,sans-serif" font-size="30" font-weight="700" text-anchor="middle">Producto agrícola</text>
+</svg>

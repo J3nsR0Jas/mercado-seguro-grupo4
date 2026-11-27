@@ -746,6 +746,105 @@ button:focus-visible, summary:focus-visible, select:focus-visible { outline: 3px
   .market-moving-cart { animation: none; }
   .category-tab, button, .dropdown-link, .small-button { transition: none !important; }
 }
+
+.sexual-health-carousel {
+  overflow: hidden;
+  margin: 1.2rem 0 1rem;
+  background: #e6f4f4;
+  border: 1px solid rgba(12, 118, 130, .2);
+  border-radius: 17px;
+  box-shadow: 0 18px 42px rgba(11, 77, 85, .14);
+}
+.sexual-health-slide {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 315px;
+  aspect-ratio: 16 / 8;
+  color: #fff;
+  background: linear-gradient(135deg, #0d6975, #82c9bf);
+  animation: sexual-slide-fade .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+.sexual-health-slide::after {
+  position: absolute;
+  z-index: 1;
+  inset: 20% 0 0;
+  content: "";
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 37, 45, .34) 38%, rgba(5, 37, 45, .92) 100%);
+  pointer-events: none;
+}
+.sexual-health-slide > img {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  animation: sexual-image-zoom 6.5s cubic-bezier(.22, 1, .36, 1) both;
+}
+.sexual-health-slide-caption {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: clamp(1rem, 3vw, 1.6rem);
+  background: linear-gradient(0deg, rgba(6, 42, 48, .55), rgba(6, 42, 48, .1));
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+.sexual-health-slide-caption > span { color: #a8f0e2; font-size: .68rem; font-weight: 900; letter-spacing: .12em; }
+.sexual-health-slide-caption h3 { margin: .35rem 0; color: #fff; font-size: clamp(1.05rem, 2.4vw, 1.5rem); }
+.sexual-health-slide-caption p { max-width: 700px; margin: 0; color: rgba(255,255,255,.92); font-size: .9rem; line-height: 1.5; }
+.carousel-progress { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; height: 4px; background: rgba(255,255,255,.28); }
+.carousel-progress::before { display: block; width: 100%; height: 100%; content: ""; background: #64e0c3; transform: scaleX(0); transform-origin: left center; animation: carousel-progress 6.5s linear both; }
+.carousel-progress.paused::before { animation-play-state: paused; }
+.sexual-health-carousel-controls { display: flex; min-height: 55px; align-items: center; justify-content: center; gap: .75rem; padding: .5rem .8rem; background: rgba(249, 255, 254, .82); backdrop-filter: blur(10px); }
+.carousel-arrow { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; color: #075b77; background: #e2f5f2; border: 1px solid #b9e2dd; border-radius: 50%; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.carousel-arrow:hover { color: #fff; background: #087f83; }
+.carousel-indicators { display: flex; align-items: center; justify-content: center; gap: .4rem; }
+.carousel-indicator { width: 9px; height: 9px; padding: 0; background: #a6c8c4; border: 0; border-radius: 99px; cursor: pointer; transition: width .3s cubic-bezier(.22, 1, .36, 1), background .25s ease, transform .25s ease; }
+.carousel-indicator:hover { transform: scale(1.25); }
+.carousel-indicator.active { width: 27px; background: #078681; }
+.carousel-pause { padding: .4rem .65rem; color: #12646b; background: transparent; border: 1px solid #b9dedd; border-radius: 7px; font-size: .76rem; font-weight: 800; cursor: pointer; }
+.carousel-pause:hover { color: #fff; background: #087f83; }
+.donor-form .feedback { grid-column: 1 / -1; }
+.recent-donors { margin-top: 1rem; padding-top: .8rem; border-top: 1px solid #cfe7e5; }
+.recent-donors h3, .recent-market-orders h3 { margin: 0 0 .65rem; color: #075b77; font-size: 1rem; }
+.recent-donors ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin: 0; padding: 0; list-style: none; }
+.recent-donors li { display: grid; gap: .2rem; padding: .65rem; color: #355a5d; background: rgba(255,255,255,.72); border-radius: 8px; font-size: .82rem; }
+.recent-donors li span { color: #607679; font-size: .76rem; }
+.donor-observations { grid-column: 1 / -1; }
+.cart-checkout-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: end; gap: .8rem; padding-top: .7rem; border-top: 1px solid #e8eee8; }
+.cart-checkout-form .button { min-height: 44px; }
+.recent-market-orders { display: grid; gap: .5rem; margin-top: 1.2rem; }
+.recent-market-orders .table-wrap { background: #fff; }
+@keyframes sexual-slide-fade {
+  from { opacity: 0; filter: blur(8px); transform: translateY(5px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes sexual-image-zoom {
+  from { opacity: .7; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.03); }
+}
+@keyframes carousel-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@media (max-width: 680px) {
+  .sexual-health-slide { min-height: 275px; aspect-ratio: 4 / 3; }
+  .carousel-indicators { gap: .3rem; }
+  .carousel-indicator { width: 7px; height: 7px; }
+  .carousel-indicator.active { width: 19px; }
+  .sexual-health-carousel-controls { gap: .45rem; padding-inline: .5rem; }
+  .cart-checkout-form { grid-template-columns: 1fr; }
+  .recent-donors ul { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sexual-health-slide, .sexual-health-slide > img, .carousel-progress::before { animation: none !important; }
+  .carousel-indicator, .carousel-arrow, .carousel-pause { transition: none !important; }
+}
 .portal-hero {
   position: relative;
   isolation: isolate;

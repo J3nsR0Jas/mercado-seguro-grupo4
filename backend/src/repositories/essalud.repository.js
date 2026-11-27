@@ -49,3 +49,24 @@ export async function updateStatus(id, status) {
   );
   return rows[0] ?? null;
 }
+
+export async function createDonor(data) {
+  const { rows } = await pool.query(
+    `INSERT INTO donantes_sangre
+       (nombre_completo, dni, grupo_sanguineo, telefono, fecha_preferida, observaciones)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, nombre_completo, grupo_sanguineo, telefono, fecha_preferida, creado_en`,
+    [data.nombre_completo, data.dni, data.grupo_sanguineo, data.telefono, data.fecha_preferida, data.observaciones]
+  );
+  return rows[0];
+}
+
+export async function listDonors() {
+  const { rows } = await pool.query(
+    `SELECT id, nombre_completo, grupo_sanguineo, telefono, fecha_preferida, creado_en
+     FROM donantes_sangre
+     ORDER BY creado_en DESC
+     LIMIT 20`
+  );
+  return rows;
+}

@@ -133,3 +133,24 @@ export async function securityReport() {
   );
   return rows;
 }
+
+export async function createWholesaleOrder(data) {
+  const { rows } = await pool.query(
+    `INSERT INTO pedidos_mayoristas
+       (cliente_nombre, telefono, tipo_compra, detalle_items, total)
+     VALUES ($1, $2, $3, $4::JSONB, $5)
+     RETURNING id, cliente_nombre, tipo_compra, detalle_items, total, estado, creado_en`,
+    [data.cliente_nombre, data.telefono, data.tipo_compra, JSON.stringify(data.detalle_items), data.total]
+  );
+  return rows[0];
+}
+
+export async function listWholesaleOrders() {
+  const { rows } = await pool.query(
+    `SELECT id, cliente_nombre, telefono, tipo_compra, detalle_items, total, estado, creado_en
+     FROM pedidos_mayoristas
+     ORDER BY creado_en DESC
+     LIMIT 50`
+  );
+  return rows;
+}

@@ -2,6 +2,7 @@ import * as repository from '../repositories/essalud.repository.js';
 
 const fail = (status, message) => Object.assign(new Error(message), { status });
 const states = ['confirmada', 'atendida', 'cancelada'];
+const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Desconocido'];
 
 export async function list(user) {
   const includeAll = user.roles.some(({ modulo, rol }) => modulo === 'essalud' && rol === 'empleado');
@@ -54,3 +55,31 @@ export async function updateStatus(id, status) {
   if (!appointment) throw fail(404, 'No se encontró la cita.');
   return appointment;
 }
+
+export async function createDonor(data) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) throw fail(400, 'Los datos del donante no son válidos.');
+  const name = typeof data.nombre_completo === 'string' ? data.nombre_completo.trim() : '';
+  const phone = typeof data.telefono === 'string' ? data.telefono.trim() : '';
+  const group = typeof data.grupo_sanguineo === 'string' ? data.grupo_sanguineo.trim() : '';
+  const dni = typeof data.dni === 'string' ? data.dni.trim() : '';
+  const preferredDate = typeof data.fecha_preferida === 'string' ? data.fecha_preferida.trim() : '';
+  const observations = typeof data.observaciones === 'string' ? data.observaciones.trim() : '';
+
+  if (!name || name.length > 150) throw fail(400, 'El nombre completo es obligatorio y no debe superar 150 caracteres.');
+  if (!phone || phone.length > 30) throw fail(400, 'El teléfono es obligatorio y no debe superar 30 caracteres.');
+  if (!bloodGroups.includes(group)) throw fail(400, 'Selecciona un grupo sanguíneo válido.');
+  if (dni && (dni.length > 20 || !/^[\p{L}\d.-]+$/u.test(dni))) throw fail(400, 'El documento debe tener hasta 20 caracteres alfanuméricos.');
+  if (preferredDate.length > 40) throw fail(400, 'La fecha preferida no debe superar 40 caracteres.');
+  if (observations.length > 2000) throw fail(400, 'Las observaciones no deben superar 2000 caracteres.');
+
+  return repository.createDonor({
+    nombre_completo: name,
+    dni: dni || null,
+    grupo_sanguineo: group,
+    telefono: phone,
+    fecha_preferida: preferredDate || null,
+    observaciones: observations || null
+  });
+}
+
+export const listDonors = () => repository.listDonors();
